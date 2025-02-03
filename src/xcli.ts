@@ -23,8 +23,13 @@ import type { CliOptions } from './types.js';
 // & CONSTS / VARIABLES
 //&============================================================================
 const SEPARATOR = '||';
-const DEFAULT_SAVE_OPTION_JSON = `options.json${SEPARATOR}json${SEPARATOR}1`;
-const DEFAULT_SAVE_OPTION_FILE = `result.txt${SEPARATOR}file${SEPARATOR}1`;
+// * save(O)
+// const DEFAULT_SAVE_OPTION_JSON = `options.json${SEPARATOR}json${SEPARATOR}1`;
+// const DEFAULT_SAVE_OPTION_FILE = `result.txt${SEPARATOR}file${SEPARATOR}1`;
+// * save(X)
+const DEFAULT_SAVE_OPTION_JSON = `${SEPARATOR}${SEPARATOR}`;
+const DEFAULT_SAVE_OPTION_FILE = `${SEPARATOR}${SEPARATOR}`;
+
 // * cli options
 // --no-github
 const argv = yargs
@@ -42,7 +47,6 @@ const argv = yargs
     type: 'string',
   })
   .option('o', {
-    // - template: (node-simple|python|go|flutter|)
     alias: 'optionalParameter',
     default: '{}',
     describe: 'Optional Parameter',
