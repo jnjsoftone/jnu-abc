@@ -51,17 +51,19 @@ npm install jnu-abc  --save
 - cursor.ai > 설정 > NOTEPADS > '+ Create New Notepad'
 
 
-3. publish
+3. 버전 관리
+
+## macos / linux
+```sh
+cd C:/JnJ/Developments/Utils/jnu-abc
+./publish.sh
+```
+
+## windows
 
 ```sh
-# npm login
-npm login jnjsoftone
-
 cd C:/JnJ/Developments/Utils/jnu-abc
-
-# macos / linux
-./publish.sh
-
-# windows
 ./publish.bat
 ```
+
+

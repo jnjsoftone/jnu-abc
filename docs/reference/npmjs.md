@@ -4,7 +4,7 @@
 
 ```sh
 # 로그인
-$ npm login jnjsoftko
+$ npm login jnjsoftone
 
 # 인증: OPT code 입력 >
 -  OTP for logging in to your account:
@@ -15,7 +15,7 @@ Authentication Successful
 # 로그인 확인
 $ npm whoami
 
-jnjsoftko
+jnjsoftone
 moondevnode
 ```
 
