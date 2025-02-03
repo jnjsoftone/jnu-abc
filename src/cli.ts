@@ -108,52 +108,58 @@ const exe = (cmds: string[]): ExecResults => {
 // * Main Functions
 // &---------------------------------------------------------------------------
 /**
- * TypeScript + SWC + NPM 프로젝트 초기화
+ * TypeScript App 초기화
  */
-const initTsSwcNpm = (options: any) => {
-  const account = findGithubAccount(options.userName ?? '');
+const initTsApp = (options: any) => {
+  const { template, repoName, userName, description } = options;
+  const { fullName, email } = findGithubAccount(userName ?? '');
   const parentDir = getParentDir();
   const currentDir = getCurrentDir();
 
   let cmd = '';
 
   if (PLATFORM === 'win') {
-    cmd = `xcopy "${TEMPLATES_ROOT}\\ts-swc-npm" "${options.repoName}\\" /E /I /H /Y`;
+    cmd = `xcopy "${TEMPLATES_ROOT}\\${template}" "${repoName}\\" /E /I /H /Y`;
     execSync(cmd, execOptions);
   } else {
-    cmd = `cp -r ${TEMPLATES_ROOT}/ts-swc-npm ${options.repoName}`;
+    cmd = `cp -r ${TEMPLATES_ROOT}/${template} ${repoName}`;
     execSync(cmd, execOptions);
   }
 
-  substituteInFile(`${options.repoName}/package.json`, {
-    '{{name}}': options.repoName ?? '',
-    '{{author}}': `${account.fullName} <${account.email}>`,
-    '{{description}}': options.description ?? '',
+  substituteInFile(`${repoName}/package.json`, {
+    '{{name}}': repoName ?? '',
+    '{{author}}': `${fullName} <${email}>`,
+    '{{github-id}}': userName ?? '',
+    '{{description}}': description ?? '',
   });
 
-  substituteInFile(`${options.repoName}/README.md`, {
-    '{{name}}': options.repoName ?? '',
-    '{{project-name}}': options.repoName ?? '',
-    '{{author}}': `${account.fullName} <${account.email}>`,
-    '{{github-id}}': options.userName ?? '',
-    '{{description}}': options.description || '',
+  substituteInFile(`${repoName}/README.md`, {
+    '{{name}}': repoName ?? '',
+    '{{project-name}}': repoName ?? '',
+    '{{author}}': `${fullName} <${email}>`,
+    '{{github-id}}': userName ?? '',
+    '{{description}}': description || '',
     '{{parent-dir}}': parentDir,
     '{{current-dir}}': currentDir,
   });
 
-  substituteInFile(`${options.repoName}/docs/workflow.md`, {
-    '{{name}}': options.repoName ?? '',
-    '{{project-name}}': options.repoName ?? '',
-    '{{github-id}}': options.userName ?? '',
-    '{{description}}': options.description || '',
-    '{{parent-dir}}': parentDir,
-    '{{current-dir}}': currentDir,
-  });
+  try {
+    substituteInFile(`${repoName}/docs/workflow.md`, {
+      '{{name}}': repoName ?? '',
+      '{{project-name}}': repoName ?? '',
+      '{{github-id}}': userName ?? '',
+      '{{description}}': description || '',
+      '{{parent-dir}}': parentDir,
+      '{{current-dir}}': currentDir,
+    });
+  } catch (err) {
+    console.error('Error in substituteInFile:', err);
+  }
 
-  cmd = `cd ${currentDir}/${options.repoName} && npm install`;
+  cmd = `cd ${currentDir}/${repoName} && npm install`;
   console.log(cmd);
   execSync(cmd, execOptions);
-  cmd = `cd ${currentDir}/${options.repoName} && xgit -e makeRepo -u ${options.userName} -n ${options.repoName} -d "${options.description}"`;
+  cmd = `cd ${currentDir}/${repoName} && xgit -e makeRepo -u ${userName} -n ${repoName} -d "${description}"`;
   console.log(cmd);
   execSync(cmd, execOptions);
 
@@ -184,7 +190,8 @@ const initApp = (options: any) => {
     case 'node-simple':
       break;
     case 'ts-swc-npm':
-      initTsSwcNpm(options);
+    case 'ts-webpack-obsidianPlugin':
+      initTsApp(options);
       break;
     case 'python-pipenv':
       break;
