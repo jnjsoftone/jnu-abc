@@ -334,6 +334,14 @@ declare function getUpsertDicts<T extends Record<string, any>>(olds: T[] | undef
  * => {b: 2}
  */
 declare const removeDictKeys: (dict: any, keys: any[]) => any;
+/**
+ * Get Today Date (yyyy-MM-dd)
+ * @returns {string} Returns today date string.
+ * @example
+ *
+ * today()
+ * => 2023-07-15
+ */
 declare const today: () => string;
 /**
  * Convert date string to ko-KR(yyyy년 M월 d일 (요일))

@@ -620,6 +620,14 @@ const removeDictKeys = (dict: any, keys: any[]) => {
 };
 
 // * Data / Time
+/**
+ * Get Today Date (yyyy-MM-dd)
+ * @returns {string} Returns today date string.
+ * @example
+ *
+ * today()
+ * => 2023-07-15
+ */
 const today = () => {
   const today = new Date();
   const year = today.getFullYear();
