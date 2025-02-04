@@ -7,7 +7,7 @@ import type { Dict } from './types.js';
 /**
  * 간단한 테스트용 함수
  * @returns 'pong'
- * 
+ *
  * @example
  * ```ts
  * ping() // 'pong'
@@ -20,7 +20,7 @@ const ping = () => 'pong';
  * 객체가 빈 객체(`{}`)인지 확인
  * @param obj 검사할 객체
  * @returns 빈 객체이면 true, 아니면 false
- * 
+ *
  * @example
  * ```ts
  * isEmptyDict({}) // true
@@ -33,7 +33,7 @@ const isEmptyDict = (obj: any) => JSON.stringify(obj) === '{}';
  * 객체가 빈 객체(`{}`) 또는 빈 배열(`[]`)인지 확인
  * @param v 검사할 값
  * @returns 빈 객체/배열이면 true, 아니면 false
- * 
+ *
  * @example
  * ```ts
  * isEmpty({}) // true
@@ -47,7 +47,7 @@ const isEmpty = (v: any) => JSON.stringify(v) === '{}' || JSON.stringify(v) === 
  * Falsy 값인지 확인
  * @param v 검사할 값
  * @returns Falsy이면 true, 아니면 false
- * 
+ *
  * @example
  * ```ts
  * isFalsy(false) // true
@@ -61,7 +61,7 @@ const isEmpty = (v: any) => JSON.stringify(v) === '{}' || JSON.stringify(v) === 
 const isFalsy = (v: any) => {
   if (v === true) return false;
   if (typeof v === 'number' && v !== 0) return false;
-  
+
   return (
     v === false ||
     v === undefined ||
@@ -78,7 +78,7 @@ const isFalsy = (v: any) => {
  * 유효한 문자열인지 확인
  * @param s 검사할 문자열
  * @returns 유효한 문자열이면 true, 아니면 false
- * 
+ *
  * @example
  * ```ts
  * isValidStr('hello') // true
@@ -107,7 +107,7 @@ const serializeNonPOJOs = (obj: any) => structuredClone(obj);
  * @param str 평가할 문자열
  * @param values 표현식에 사용할 값들
  * @returns 평가된 문자열
- * 
+ *
  * @example
  * ```ts
  * evalStr('${i + j}', { i: 1, j: 2 }) // '3'
@@ -127,7 +127,7 @@ const evalStr = (str: string, values: Dict) => {
  * @param s 검사할 문자열
  * @param arr 검사할 문자열 배열
  * @returns 포함하면 true, 아니면 false
- * 
+ *
  * @example
  * ```ts
  * includesMulti('hello world', ['hello', 'hi']) // true
@@ -144,14 +144,14 @@ const includesMulti = (s: string, arr: string[]) => {
  * 어떤 타입의 값을 문자열로 변환
  * @param s 변환할 값
  * @returns 변환된 문자열
- * 
+ *
  * @example
  * ```ts
  * strFromAny(123) // '123'
  * strFromAny({ a: 1 }) // '{"a":1}'
  * ```
  */
-const strFromAny = (s: any) => typeof s === 'string' ? s.trim() : JSON.stringify(s);
+const strFromAny = (s: any) => (typeof s === 'string' ? s.trim() : JSON.stringify(s));
 
 // * CSV Functions
 /**
@@ -161,7 +161,7 @@ const strFromAny = (s: any) => typeof s === 'string' ? s.trim() : JSON.stringify
  * @param hasQuote 따옴표 포함 여부 (기본값: true)
  * @param newline 줄바꿈 문자 (기본값: '\n')
  * @returns 2차원 배열
- * 
+ *
  * @example
  * ```ts
  * rowsFromCsv('"a","b"\n"1","2"') // [['a','b'], ['1','2']]
@@ -171,9 +171,14 @@ const rowsFromCsv = (csv: string, sep = ',', hasQuote = true, newline = '\n') =>
   const rows: string[][] = [];
   for (const line of csv.split(newline)) {
     if (hasQuote) {
-      rows.push(line.slice(1, -1).split(`"${sep}"`).map(s => s.trim()));
+      rows.push(
+        line
+          .slice(1, -1)
+          .split(`"${sep}"`)
+          .map((s) => s.trim())
+      );
     } else {
-      rows.push(line.split(sep).map(s => s.trim()));
+      rows.push(line.split(sep).map((s) => s.trim()));
     }
   }
   return rows;
@@ -186,7 +191,7 @@ const rowsFromCsv = (csv: string, sep = ',', hasQuote = true, newline = '\n') =>
  * @param hasQuote 따옴표 포함 여부 (기본값: true)
  * @param newline 줄바꿈 문자 (기본값: '\n')
  * @returns CSV 문자열
- * 
+ *
  * @example
  * ```ts
  * csvFromRows([['a','b'], ['1','2']]) // '"a","b"\n"1","2"'
@@ -211,14 +216,14 @@ const csvFromRows = (rows: any[][], sep = ',', hasQuote = true, newline = '\n') 
  * @param index 추출할 인덱스
  * @param hasHeader 헤더 포함 여부
  * @returns 추출된 1차원 배열
- * 
+ *
  * @example
  * ```ts
  * arrFromArrs([[1,2], [3,4]], 1) // [2,4]
  * ```
  */
 const arrFromArrs = (rows: any[][], index = 0, hasHeader = false) => {
-  const arr = rows.map(row => row[index]);
+  const arr = rows.map((row) => row[index]);
   return hasHeader ? arr.slice(1) : arr;
 };
 
@@ -228,7 +233,7 @@ const arrFromArrs = (rows: any[][], index = 0, hasHeader = false) => {
  * @param obj 대상 객체
  * @param key 제거할 키
  * @returns 키가 제거된 객체
- * 
+ *
  * @example
  * ```ts
  * popDict({a:1, b:2}, 'a') // {b:2}
@@ -250,12 +255,7 @@ const popDict = (obj: Dict, key: string) => {
  * newKeys({ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 'a1', 'c': 'c1', 'd': 'd1' }, {'d1': ''})
  * => { a1: 1, c1: 3, d1: '' }
  */
-const newKeys = (
-  obj: Record<string, any>,
-  maps: Record<string, string>,
-  valMap: Record<string, any>,
-  dfault = ''
-) => {
+const newKeys = (obj: Record<string, any>, maps: Record<string, string>, valMap: Record<string, any>, dfault = '') => {
   return Object.keys(maps).reduce(function (obj_, key) {
     obj_[maps[key]] = obj[key] ?? valMap[key] ?? dfault;
     return obj_;
@@ -423,13 +423,9 @@ const rowsAddedDefaults = (rows: any[], valMap = {}, isPush = false) => {
   const addKeys = Object.keys(valMap);
   const addVals = Object.values(valMap);
   if (isPush) {
-    return rows.map((arr, i) =>
-      i === 0 ? [...arr, ...addKeys] : [...arr, ...addVals]
-    );
+    return rows.map((arr, i) => (i === 0 ? [...arr, ...addKeys] : [...arr, ...addVals]));
   } else {
-    return rows.map((arr, i) =>
-      i === 0 ? [...addKeys, ...arr] : [...addVals, ...arr]
-    );
+    return rows.map((arr, i) => (i === 0 ? [...addKeys, ...arr] : [...addVals, ...arr]));
   }
 };
 
@@ -577,11 +573,7 @@ const swapDict = (obj: Record<any, any>) => {
  * upserts.dels = [{a: 4, b: 5, c: 6}]  // dicts not exist in news, but not exist in olds for keys['a', 'b']. {a: 4, b: 5} is in `news`, but is not in `olds`
  * upserts.upds = [{a: 1, b: 2, d: 3}, {a: 4, b: 6, d: 8}]  // dicts exist in news, and exist in olds for keys['a', 'b']. {a: 1, b: 2}, {a: 4, b: 6} are in `news`, `olds`.
  */
-function getUpsertDicts<T extends Record<string, any>>(
-  olds: T[] = [],
-  news: T[] = [],
-  keys: (keyof T)[]
-) {
+function getUpsertDicts<T extends Record<string, any>>(olds: T[] = [], news: T[] = [], keys: (keyof T)[]) {
   const upserts = {
     adds: [] as T[],
     dels: [] as T[],
@@ -590,26 +582,18 @@ function getUpsertDicts<T extends Record<string, any>>(
 
   // Check for adds and upds dicts
   news.forEach((newDict) => {
-    const matchingOldDict = olds.find((oldDict) =>
-      keys.every((key) => newDict[key] === oldDict[key])
-    );
+    const matchingOldDict = olds.find((oldDict) => keys.every((key) => newDict[key] === oldDict[key]));
 
     if (!matchingOldDict) {
       upserts.adds.push(newDict);
-    } else if (
-      !Object.entries(newDict).every(
-        ([key, value]) => matchingOldDict[key] === value
-      )
-    ) {
+    } else if (!Object.entries(newDict).every(([key, value]) => matchingOldDict[key] === value)) {
       upserts.upds.push(newDict);
     }
   });
 
   // Check for dels dicts
   olds.forEach((oldDict) => {
-    const matchingNewDict = news.find((newDict) =>
-      keys.every((key) => oldDict[key] === newDict[key])
-    );
+    const matchingNewDict = news.find((newDict) => keys.every((key) => oldDict[key] === newDict[key]));
 
     if (!matchingNewDict) {
       upserts.dels.push(oldDict);
@@ -636,6 +620,14 @@ const removeDictKeys = (dict: any, keys: any[]) => {
 };
 
 // * Data / Time
+const today = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 /**
  * Convert date string to ko-KR(yyyy년 M월 d일 (요일))
  * @param {string} dateStr The function to delay.
@@ -685,7 +677,10 @@ const now = (options: any) => {
 
 const timeFromTimestamp = (timestamp: number) => {
   const date = new Date(timestamp);
-  return `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+  return `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}${String(date.getDate()).padStart(
+    2,
+    '0'
+  )} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
 };
 
 /**
@@ -766,10 +761,11 @@ export {
   swapDict,
   getUpsertDicts,
   removeDictKeys,
+  today,
   dateKo,
   now,
   timeFromTimestamp,
   delay,
   sleep,
-  sleepAsync
+  sleepAsync,
 };

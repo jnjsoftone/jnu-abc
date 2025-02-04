@@ -334,6 +334,7 @@ declare function getUpsertDicts<T extends Record<string, any>>(olds: T[] | undef
  * => {b: 2}
  */
 declare const removeDictKeys: (dict: any, keys: any[]) => any;
+declare const today: () => string;
 /**
  * Convert date string to ko-KR(yyyy년 M월 d일 (요일))
  * @param {string} dateStr The function to delay.
@@ -389,5 +390,5 @@ declare const sleep: (sec: number) => void;
  * // => Logs 'later' after one second.
  */
 declare const sleepAsync: (wait: number) => Promise<void>;
-export { ping, isEmptyDict, isEmpty, isFalsy, isValidStr, serializeNonPOJOs, evalStr, includesMulti, strFromAny, rowsFromCsv, csvFromRows, arrFromArrs, popDict, newKeys, renameKeys, overwriteKeys, updateKeys, arrFromDicts, dictFromDuo, dictsFromDuos, duoFromDict, rowsFromDicts, dictsFromRows, arrsFromDicts, dictsFromArrs, rowsAddedDefaults, swapDict, getUpsertDicts, removeDictKeys, dateKo, now, timeFromTimestamp, delay, sleep, sleepAsync };
+export { ping, isEmptyDict, isEmpty, isFalsy, isValidStr, serializeNonPOJOs, evalStr, includesMulti, strFromAny, rowsFromCsv, csvFromRows, arrFromArrs, popDict, newKeys, renameKeys, overwriteKeys, updateKeys, arrFromDicts, dictFromDuo, dictsFromDuos, duoFromDict, rowsFromDicts, dictsFromRows, arrsFromDicts, dictsFromArrs, rowsAddedDefaults, swapDict, getUpsertDicts, removeDictKeys, today, dateKo, now, timeFromTimestamp, delay, sleep, sleepAsync, };
 //# sourceMappingURL=basic.d.ts.map

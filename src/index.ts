@@ -23,7 +23,10 @@ export {
   swapDict, // 객체의 키와 값을 서로 교체
   getUpsertDicts, // 객체 배열의 변경사항 추적
   removeDictKeys, // 객체에서 특정 키들 제거
+  today, // 오늘 날짜 반환
+  dateKo, // 오늘 날짜를 한글로 반환
   now, // 현재 날짜와 시간 반환
+  timeFromTimestamp, // 타임스탬프를 시간으로 변환
   delay, // 지정된 시간 후 함수 실행
   sleep, // 지정된 시간 동안 대기
   sleepAsync, // 비동기로 지정된 시간 동안 대기
