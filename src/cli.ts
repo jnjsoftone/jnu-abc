@@ -125,36 +125,61 @@ const initTsApp = (options: any) => {
     cmd = `cp -r ${TEMPLATES_ROOT}/${template} ${repoName}`;
     execSync(cmd, execOptions);
   }
+  const files = [
+    `${repoName}/package.json`,
+    `${repoName}/README.md`,
+    `${repoName}/docs/workflow.md`,
+    `${repoName}/manifest.json`,
+    `${repoName}/publish.sh`,
+    `${repoName}/publish.bat`,
+  ];
 
-  substituteInFile(`${repoName}/package.json`, {
-    '{{name}}': repoName ?? '',
-    '{{author}}': `${fullName} <${email}>`,
-    '{{github-id}}': userName ?? '',
-    '{{description}}': description ?? '',
-  });
-
-  substituteInFile(`${repoName}/README.md`, {
-    '{{name}}': repoName ?? '',
-    '{{project-name}}': repoName ?? '',
-    '{{author}}': `${fullName} <${email}>`,
-    '{{github-id}}': userName ?? '',
-    '{{description}}': description || '',
-    '{{parent-dir}}': parentDir,
-    '{{current-dir}}': currentDir,
-  });
-
-  try {
-    substituteInFile(`${repoName}/docs/workflow.md`, {
+  for (const file of files) {
+    substituteInFile(file, {
       '{{name}}': repoName ?? '',
       '{{project-name}}': repoName ?? '',
+      '{{author}}': `${fullName} <${email}>`,
       '{{github-id}}': userName ?? '',
       '{{description}}': description || '',
       '{{parent-dir}}': parentDir,
       '{{current-dir}}': currentDir,
+      // '{{publish_root}}': publishRoot,
     });
-  } catch (err) {
-    console.error('Error in substituteInFile:', err);
   }
+
+  // substituteInFile(`${repoName}/README.md`, {
+  //   '{{name}}': repoName ?? '',
+  //   '{{project-name}}': repoName ?? '',
+  //   '{{author}}': `${fullName} <${email}>`,
+  //   '{{github-id}}': userName ?? '',
+  //   '{{description}}': description || '',
+  //   '{{parent-dir}}': parentDir,
+  //   '{{current-dir}}': currentDir,
+  // });
+
+  // try {
+  //   substituteInFile(`${repoName}/manifest.json`, {
+  //     '{{name}}': repoName ?? '',
+  //     '{{description}}': description || '',
+  //     '{{author}}': `${fullName} <${email}>`,
+  //     '{{github-id}}': userName ?? '',
+  //   });
+  // } catch (err) {
+  //   console.error('Error in substituteInFile:', err);
+  // }
+
+  // try {
+  //   substituteInFile(`${repoName}/docs/workflow.md`, {
+  //     '{{name}}': repoName ?? '',
+  //     '{{project-name}}': repoName ?? '',
+  //     '{{github-id}}': userName ?? '',
+  //     '{{description}}': description || '',
+  //     '{{parent-dir}}': parentDir,
+  //     '{{current-dir}}': currentDir,
+  //   });
+  // } catch (err) {
+  //   console.error('Error in substituteInFile:', err);
+  // }
 
   cmd = `cd ${currentDir}/${repoName} && npm install`;
   console.log(cmd);
