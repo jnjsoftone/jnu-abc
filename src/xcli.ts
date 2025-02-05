@@ -159,6 +159,7 @@ switch (options.exec) {
       options.requiredParameter ?? `"${SEPARATOR}node_modules/,package-lock.json,.next/"`,
       SEPARATOR
     );
+    console.log(`@@@@ zipFolder: ${zipFolder}, zipExcluded: ${zipExcluded}`);
     result = zip(zipFolder, zipExcluded);
     saveResult(result, options.saveOption ?? '', DEFAULT_SAVE_OPTION_JSON);
     break;
