@@ -69,6 +69,26 @@ const getParentDir = (): string => {
   }
 };
 
+/**
+ * publish.bat/sh 파일 내용 치환
+ * @param repoName 
+ * @param platform ('win' | 'mac')
+ * @param replacements 
+ */
+const substitutePublishFile = (repoName: string, platform: string, replacements: Record<string, string>) => {
+  const env = loadEnv(`${repoName}/.env.${platform}`)
+  // console.log(`@@@@ env: ${JSON.stringify(env)}`);
+  if (env) {
+    const publishFile = platform === 'win' ? 'publish.bat' : 'publish.sh';
+    const replacements2 = Object.entries(env).map(([key, value]) => ({
+    [`{{${key}}}`]: String(value)
+    })).reduce<Record<string, string>>((acc, curr) => ({ ...acc, ...curr }), {});
+    // console.log(`@@@@ replacements2: ${JSON.stringify(replacements2)}, @@@ file: ${publishFile}`);
+  
+    substituteInFile(`${repoName}/${publishFile}`, { ...replacements, ...replacements2 });
+  }
+}
+
 // & Functions AREA
 // &---------------------------------------------------------------------------
 
@@ -147,22 +167,27 @@ const initTsApp = (options: any, platform: string = PLATFORM) => {
     '{{parent-dir}}': parentDir,
     '{{current-dir}}': currentDir,
   };
+
   for (const file of files) {
     substituteInFile(file, replacements);
   }
 
-  // * .env.${platform} 파일 존재 시 publish.bat/sh 파일 내용 치환
-  const env = loadEnv(`${repoName}/.env.${platform}`)
-  console.log(`@@@@ env: ${env}`);
-  if (env) {
-    const publishFile = platform === 'win' ? 'publish.bat' : 'publish.sh';
-    const replacements2 = Object.entries(env).map(([key, value]) => ({
-    [`{{${key}}}`]: String(value)
-    })).reduce<Record<string, string>>((acc, curr) => ({ ...acc, ...curr }), {});
-    console.log(`@@@@ replacements2: ${replacements2}, @@@ file: ${publishFile}`);
-  
-    substituteInFile(`${repoName}/${publishFile}`, { ...replacements, ...replacements2 });
+  for (const pf of ['win', 'mac']) {
+    substitutePublishFile(repoName, pf, replacements)
   }
+
+  // // * .env.${platform} 파일 존재 시 publish.bat/sh 파일 내용 치환
+  // const env = loadEnv(`${repoName}/.env.${platform}`)
+  // console.log(`@@@@ env: ${JSON.stringify(env)}`);
+  // if (env) {
+  //   const publishFile = platform === 'win' ? 'publish.bat' : 'publish.sh';
+  //   const replacements2 = Object.entries(env).map(([key, value]) => ({
+  //   [`{{${key}}}`]: String(value)
+  //   })).reduce<Record<string, string>>((acc, curr) => ({ ...acc, ...curr }), {});
+  //   console.log(`@@@@ replacements2: ${JSON.stringify(replacements2)}, @@@ file: ${publishFile}`);
+  
+  //   substituteInFile(`${repoName}/${publishFile}`, { ...replacements, ...replacements2 });
+  // }
 
   // * 패키지 설치
   cmd = `cd ${currentDir}/${repoName} && npm install`;
