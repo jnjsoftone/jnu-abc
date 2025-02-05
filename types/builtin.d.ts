@@ -26,6 +26,14 @@ declare const loadFile: (path: string, encoding?: BufferEncoding) => string;
  */
 declare const loadJson: (path: string, encoding?: BufferEncoding) => any;
 /**
+ * Load data(.env) from file with charset(encoding)
+ */
+declare const loadEnv: (path: string, encoding?: BufferEncoding) => {};
+/**
+ * Save data(.env) to file with charset(encoding), create Folder if not exist
+ */
+declare const saveEnv: (path: string, data: Record<string, string>, encoding?: BufferEncoding) => void;
+/**
  * Save data to file with charset(encoding), create Folder if not exist
  * @remarks
  * if overwrite is false, append data to file
@@ -98,8 +106,10 @@ composeHangul, setPath, // 상대경로->절대경로(실행 폴더 기준) './d
 sanitizeName, // 파일명으로 사용가능하도록 문자열 변경
 loadFile, //
 loadJson, //
+loadEnv, //
 saveFile, //
 saveJson, //
+saveEnv, //
 makeDir, //
 copyDir, // 폴더 복사(recursive)
 findFiles, // 파일 목록

@@ -34,8 +34,10 @@ slashedFolder, // 경로의 백슬래시를 슬래시로 변환
 setPath, // 상대 경로를 절대 경로로 변환
 loadFile, // 파일에서 데이터 읽기
 loadJson, // JSON 파일에서 데이터 읽기
+loadEnv, // .env 파일에서 데이터 읽기
 saveFile, // 파일에 데이터 저장
 saveJson, // JSON 파일에 데이터 저장
+saveEnv, // .env 파일에 데이터 저장
 sanitizeName, // 파일명으로 사용 가능하도록 문자열 변경
 makeDir, // 디렉토리 생성
 copyDir, // 디렉토리 복사

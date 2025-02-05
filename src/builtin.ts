@@ -103,6 +103,35 @@ const loadJson = (path: string, encoding: BufferEncoding = 'utf8') => {
 };
 
 /**
+ * Load data(.env) from file with charset(encoding)
+ */
+const loadEnv = (path: string, encoding: BufferEncoding = 'utf8') => {
+  try {
+    const content = removeBOM(fs.readFileSync(setPath(path), { encoding }));
+    if (!content) return {};
+    const lines = content.split('\n');
+    const env = {};
+    for (const line of lines) {
+      const splits = line.split('=');
+      const [key, value] = [splits[0].trim(), splits.slice(1).join('=').trim()];
+      if ( !key || key.startsWith('#') || key.startsWith('//')) continue;
+      env[key] = value.replace(/^['"]|['"]$/g, '');
+    }
+    return env;
+  } catch {
+    return {};
+  }
+};
+
+/**
+ * Save data(.env) to file with charset(encoding), create Folder if not exist
+ */
+const saveEnv = (path: string, data: Record<string, string>, encoding: BufferEncoding = 'utf8') => {
+  const content = Object.entries(data).map(([key, value]) => `${key}=${value}`).join('\n');
+  fs.writeFileSync(setPath(path), content, { encoding });
+};
+
+/**
  * Save data to file with charset(encoding), create Folder if not exist
  * @remarks
  * if overwrite is false, append data to file
@@ -367,6 +396,7 @@ const deleteFilesInFolder = (folderPath: string, pattern: string = 'node_modules
  */
 const substituteInFile = (filePath: string, replacements: Record<string, string>) => {
   let content = loadFile(filePath);
+  if (!content) return;
   for (const [key, value] of Object.entries(replacements)) {
     content = content.replace(new RegExp(key, 'g'), value);
   }
@@ -383,8 +413,10 @@ export {
   sanitizeName, // 파일명으로 사용가능하도록 문자열 변경
   loadFile, //
   loadJson, //
+  loadEnv, //
   saveFile, //
   saveJson, //
+  saveEnv, //
   makeDir, //
   copyDir, // 폴더 복사(recursive)
   findFiles, // 파일 목록

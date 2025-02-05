@@ -9,6 +9,8 @@ import {
   saveJson,
   loadFile,
   saveFile,
+  loadEnv,
+  saveEnv,
   findFiles,
   findFolders,
   deleteFilesInFolder,
@@ -110,7 +112,7 @@ const exe = (cmds: string[]): ExecResults => {
 /**
  * TypeScript App 초기화
  */
-const initTsApp = (options: any) => {
+const initTsApp = (options: any, platform: string = PLATFORM) => {
   const { template, repoName, userName, description } = options;
   const { fullName, email } = findGithubAccount(userName ?? '');
   const parentDir = getParentDir();
@@ -118,13 +120,15 @@ const initTsApp = (options: any) => {
 
   let cmd = '';
 
-  if (PLATFORM === 'win') {
+  if (platform === 'win') {
     cmd = `xcopy "${TEMPLATES_ROOT}\\${template}" "${repoName}\\" /E /I /H /Y`;
     execSync(cmd, execOptions);
   } else {
     cmd = `cp -r ${TEMPLATES_ROOT}/${template} ${repoName}`;
     execSync(cmd, execOptions);
   }
+
+  // * 파일 치환
   const files = [
     `${repoName}/package.json`,
     `${repoName}/README.md`,
@@ -134,56 +138,36 @@ const initTsApp = (options: any) => {
     `${repoName}/publish.bat`,
   ];
 
+  let replacements = {
+    '{{name}}': repoName ?? '',
+    '{{project-name}}': repoName ?? '',
+    '{{author}}': `${fullName} <${email}>`,
+    '{{github-id}}': userName ?? '',
+    '{{description}}': description || '',
+    '{{parent-dir}}': parentDir,
+    '{{current-dir}}': currentDir,
+  };
   for (const file of files) {
-    substituteInFile(file, {
-      '{{name}}': repoName ?? '',
-      '{{project-name}}': repoName ?? '',
-      '{{author}}': `${fullName} <${email}>`,
-      '{{github-id}}': userName ?? '',
-      '{{description}}': description || '',
-      '{{parent-dir}}': parentDir,
-      '{{current-dir}}': currentDir,
-      // '{{publish_root}}': publishRoot,
-    });
+    substituteInFile(file, replacements);
   }
 
-  // substituteInFile(`${repoName}/README.md`, {
-  //   '{{name}}': repoName ?? '',
-  //   '{{project-name}}': repoName ?? '',
-  //   '{{author}}': `${fullName} <${email}>`,
-  //   '{{github-id}}': userName ?? '',
-  //   '{{description}}': description || '',
-  //   '{{parent-dir}}': parentDir,
-  //   '{{current-dir}}': currentDir,
-  // });
+  // * .env.${platform} 파일 존재 시 publish.bat/sh 파일 내용 치환
+  const env = loadEnv(`${repoName}/.env.${platform}`)
+  if (env) {
+    const publishFile = platform === 'win' ? 'publish.bat' : 'publish.sh';
+    const replacements2 = Object.entries(env).map(([key, value]) => ({
+    [`{{${key}}}`]: String(value)
+    })).reduce<Record<string, string>>((acc, curr) => ({ ...acc, ...curr }), {});
+  
+    substituteInFile(`${repoName}/${publishFile}`, { ...replacements, ...replacements2 });
+  }
 
-  // try {
-  //   substituteInFile(`${repoName}/manifest.json`, {
-  //     '{{name}}': repoName ?? '',
-  //     '{{description}}': description || '',
-  //     '{{author}}': `${fullName} <${email}>`,
-  //     '{{github-id}}': userName ?? '',
-  //   });
-  // } catch (err) {
-  //   console.error('Error in substituteInFile:', err);
-  // }
-
-  // try {
-  //   substituteInFile(`${repoName}/docs/workflow.md`, {
-  //     '{{name}}': repoName ?? '',
-  //     '{{project-name}}': repoName ?? '',
-  //     '{{github-id}}': userName ?? '',
-  //     '{{description}}': description || '',
-  //     '{{parent-dir}}': parentDir,
-  //     '{{current-dir}}': currentDir,
-  //   });
-  // } catch (err) {
-  //   console.error('Error in substituteInFile:', err);
-  // }
-
+  // * 패키지 설치
   cmd = `cd ${currentDir}/${repoName} && npm install`;
   console.log(cmd);
   execSync(cmd, execOptions);
+
+  // * 원격 저장소 생성
   cmd = `cd ${currentDir}/${repoName} && xgit -e makeRepo -u ${userName} -n ${repoName} -d "${description}"`;
   console.log(cmd);
   execSync(cmd, execOptions);
