@@ -69,6 +69,10 @@ const getParentDir = (): string => {
   }
 };
 
+const addWildCard = (name: string): string => {
+  return name.endsWith('/') ? "*/" + name + "*" : "*/" + name;
+}
+
 /**
  * publish.bat/sh 파일 내용 치환
  * @param repoName 
@@ -302,7 +306,7 @@ const zip = (folderPath: string, excluded: string) => {
           const _excluded = excluded
             ? excluded
                 .split(',')
-                .map((item) => `"${item}"`)
+                .map((item) => `"${addWildCard(item)}"`)
                 .join(' ')
             : '"*/node_modules/*" ".git/*"';
           // 상대 경로로 압축
