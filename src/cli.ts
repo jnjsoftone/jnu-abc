@@ -153,11 +153,13 @@ const initTsApp = (options: any, platform: string = PLATFORM) => {
 
   // * .env.${platform} 파일 존재 시 publish.bat/sh 파일 내용 치환
   const env = loadEnv(`${repoName}/.env.${platform}`)
+  console.log(`@@@@ env: ${env}`);
   if (env) {
     const publishFile = platform === 'win' ? 'publish.bat' : 'publish.sh';
     const replacements2 = Object.entries(env).map(([key, value]) => ({
     [`{{${key}}}`]: String(value)
     })).reduce<Record<string, string>>((acc, curr) => ({ ...acc, ...curr }), {});
+    console.log(`@@@@ replacements2: ${replacements2}, @@@ file: ${publishFile}`);
   
     substituteInFile(`${repoName}/${publishFile}`, { ...replacements, ...replacements2 });
   }
