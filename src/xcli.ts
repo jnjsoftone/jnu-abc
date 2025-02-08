@@ -6,6 +6,7 @@ import { execSync, ExecSyncOptionsWithStringEncoding } from 'child_process';
 import Path from 'path';
 import { sleep } from './basic.js';
 import {
+  PLATFORM,
   makeDir,
   copyDir,
   loadJson,
@@ -17,7 +18,7 @@ import {
   substituteInFile,
 } from './builtin.js';
 import { findGithubAccount } from './git.js';
-import { TEMPLATES_ROOT, PLATFORM, execOptions, initApp, removeApp, zip, tree, unzip } from './cli.js';
+import { TEMPLATES_ROOT, execOptions, initApp, removeApp, zip, tree, unzip } from './cli.js';
 import type { CliOptions } from './types.js';
 
 // & CONSTS / VARIABLES

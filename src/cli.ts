@@ -2,6 +2,7 @@ import { execSync, ExecSyncOptionsWithStringEncoding } from 'child_process';
 import Path from 'path';
 import { sleep } from './basic.js';
 import {
+  PLATFORM,
   composeHangul,
   makeDir,
   copyDir,
@@ -24,14 +25,6 @@ import fs from 'fs';
 // & Variables AREA
 // &---------------------------------------------------------------------------
 const TEMPLATES_ROOT = `${process.env.DEV_ROOT}/jd-templates` ?? 'C:/JnJ/Developments/jd-templates';
-const PLATFORM =
-  process.platform === 'win32'
-    ? 'win'
-    : process.platform === 'darwin'
-    ? 'mac'
-    : process.platform === 'linux'
-    ? 'linux'
-    : process.platform;
 
 // Windows 실행 옵션에 코드페이지 변경 명령 추가
 const execOptions: ExecSyncOptionsWithStringEncoding = {
@@ -465,7 +458,6 @@ const tree = (excluded: string): string => {
 // &---------------------------------------------------------------------------
 export {
   TEMPLATES_ROOT,
-  PLATFORM,
   execOptions,
   exec,
   exe,

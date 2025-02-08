@@ -1,6 +1,7 @@
 /// <reference types="node" />
 /// <reference types="node" />
 import type { FileOptions, JsonOptions } from './types.js';
+declare const PLATFORM: string;
 /**
  * 폴더이름에 포함된 "\\" => "/"
  */
@@ -101,7 +102,7 @@ declare const deleteFilesInFolder: (folderPath: string, pattern?: string, recurs
  * @param replacements {k1: v1, k2: v2, ...} ("search" -> "replace")
  */
 declare const substituteInFile: (filePath: string, replacements: Record<string, string>) => void;
-export { slashedFolder, //
+export { PLATFORM, slashedFolder, //
 composeHangul, setPath, // 상대경로->절대경로(실행 폴더 기준) './dir1/dir2' =>
 sanitizeName, // 파일명으로 사용가능하도록 문자열 변경
 loadFile, //

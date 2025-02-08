@@ -14,7 +14,7 @@ import { Octokit } from '@octokit/rest';
 // ? Internal Modules
 import { loadJson } from './builtin.js';
 import { sleep } from './basic.js';
-import { PLATFORM } from './cli.js';
+import { PLATFORM } from './builtin.js';
 
 // & Types AREA
 // &---------------------------------------------------------------------------

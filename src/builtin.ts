@@ -6,6 +6,15 @@ import Path from 'path';
 import type { FileOptions, JsonOptions } from './types.js';
 
 
+const PLATFORM =
+  process.platform === 'win32'
+    ? 'win'
+    : process.platform === 'darwin'
+    ? 'mac'
+    : process.platform === 'linux'
+    ? 'linux'
+    : process.platform;
+
 // & Functions AREA
 // &---------------------------------------------------------------------------
 // * File System
@@ -407,6 +416,7 @@ const substituteInFile = (filePath: string, replacements: Record<string, string>
 // & Export AREA
 // &---------------------------------------------------------------------------
 export {
+  PLATFORM,
   slashedFolder, //
   composeHangul,
   setPath, // 상대경로->절대경로(실행 폴더 기준) './dir1/dir2' =>
