@@ -57,28 +57,3 @@ export {
   deleteFilesInFolder, // 폴더 내 파일 삭제
   substituteInFile, // 파일 내용 치환
 } from './builtin.js';
-
-export {
-  TEMPLATES_ROOT,
-  exec, // 단일 명령어 실행
-  exe, // 여러 명령어 순차 실행
-  getParentDir,
-  initApp,
-  removeApp,
-  zip,
-  tree,
-} from './cli.js';
-
-export {
-  findGithubAccount,
-  findAllRepos,
-  createRemoteRepo,
-  cloneRepo,
-  setLocalConfig,
-  copyRepo,
-  initLocalRepo,
-  pushRepo,
-  deleteRemoteRepo,
-  makeRepo,
-  removeRepo,
-} from './git.js';

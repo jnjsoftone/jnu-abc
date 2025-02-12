@@ -20,35 +20,3 @@ export type JsonOptions = {
   overwrite?: boolean;
   newFile?: boolean;
 };
-
-/**
- * @module cli
- */
-export type ExecResult = string;
-export type ExecResults = string[];
-
-export interface CliOptions {
-  exec: string;
-  requiredParameter?: string;
-  optionalParameter?: string;
-  saveOption?: string;
-}
-
-/**
- * @module git
- */
-export type GithubAccount = {
-  userName: string;
-  fullName: string;
-  email: string;
-  token: string;
-};
-
-export type RepoOptions = {
-  name: string;
-  userName?: string;
-  description?: string;
-  auto_init?: boolean;
-  isPrivate?: boolean;
-  license_template?: string;
-};
