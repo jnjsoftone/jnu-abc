@@ -51,8 +51,4 @@ moveFiles, // 여러 파일 이동
 renameFilesInFolder, // 폴더 내 파일 이름 변경
 deleteFilesInFolder, // 폴더 내 파일 삭제
 substituteInFile, } from './builtin.js';
-export { TEMPLATES_ROOT, exec, // 단일 명령어 실행
-exe, // 여러 명령어 순차 실행
-getParentDir, initApp, removeApp, zip, tree, } from './cli.js';
-export { findGithubAccount, findAllRepos, createRemoteRepo, cloneRepo, setLocalConfig, copyRepo, initLocalRepo, pushRepo, deleteRemoteRepo, makeRepo, removeRepo, } from './git.js';
 //# sourceMappingURL=index.d.ts.map
