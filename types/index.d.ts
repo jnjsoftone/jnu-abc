@@ -50,5 +50,8 @@ moveFile, // 파일 이동
 moveFiles, // 여러 파일 이동
 renameFilesInFolder, // 폴더 내 파일 이름 변경
 deleteFilesInFolder, // 폴더 내 파일 삭제
-substituteInFile, } from './builtin.js';
+substituteInFile, // 파일 내용 치환
+getFileStreamFromUrl, // url -> file stream
+getFileBufferFromUrl, // url -> file buffer
+saveFileFromUrl, } from './builtin.js';
 //# sourceMappingURL=index.d.ts.map

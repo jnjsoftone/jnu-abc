@@ -102,6 +102,20 @@ declare const deleteFilesInFolder: (folderPath: string, pattern?: string, recurs
  * @param replacements {k1: v1, k2: v2, ...} ("search" -> "replace")
  */
 declare const substituteInFile: (filePath: string, replacements: Record<string, string>) => void;
+/**
+ * URL로부터 파일 스트림을 가져오는 함수
+ * @param {string} url - 가져올 파일의 URL
+ * @returns {Promise<Readable>} - 파일 스트림을 반환하는 Promise
+ */
+declare const getFileStreamFromUrl: (url: any) => Promise<unknown>;
+/**
+ * 스트림에서 데이터를 읽어 버퍼로 변환하는 함수
+ * @param {Readable} stream - 데이터를 읽을 스트림
+ * @returns {Promise<Buffer>} - 버퍼를 반환하는 Promise
+ */
+declare const streamToBuffer: (stream: any) => Promise<unknown>;
+declare const getFileBufferFromUrl: (url: any) => Promise<unknown>;
+declare const saveFileFromUrl: (path: any, url: any) => Promise<void>;
 export { PLATFORM, slashedFolder, //
 composeHangul, setPath, // 상대경로->절대경로(실행 폴더 기준) './dir1/dir2' =>
 sanitizeName, // 파일명으로 사용가능하도록 문자열 변경
@@ -118,5 +132,5 @@ findFolders, // 하위 folder 목록
 existsFolder, // 폴더 존재여부
 existsFile, // 파일 존재여부
 exists, // 존재여부
-moveFile, moveFiles, renameFilesInFolder, deleteFilesInFolder, substituteInFile };
+moveFile, moveFiles, renameFilesInFolder, deleteFilesInFolder, substituteInFile, getFileStreamFromUrl, streamToBuffer, getFileBufferFromUrl, saveFileFromUrl };
 //# sourceMappingURL=builtin.d.ts.map

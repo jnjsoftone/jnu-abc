@@ -4,7 +4,9 @@
 import * as fs from 'fs';
 import Path from 'path';
 import type { FileOptions, JsonOptions } from './types.js';
-
+import https from 'https';
+import http from 'http';
+import { Readable } from 'stream';
 
 const PLATFORM =
   process.platform === 'win32'
@@ -412,7 +414,68 @@ const substituteInFile = (filePath: string, replacements: Record<string, string>
   saveFile(filePath, content, { overwrite: true, newFile: false });
 }
 
+// * requests
+/**
+ * URL로부터 파일 스트림을 가져오는 함수
+ * @param {string} url - 가져올 파일의 URL
+ * @returns {Promise<Readable>} - 파일 스트림을 반환하는 Promise
+ */
+const getFileStreamFromUrl = async (url) => {
+  return new Promise((resolve, reject) => {
+    // URL 프로토콜에 따라 http 또는 https 모듈 선택
+    const httpClient = url.startsWith('https') ? https : http;
 
+    const request = httpClient.get(url, (response) => {
+      // 리다이렉션 처리
+      if (response.statusCode === 301 || response.statusCode === 302) {
+        const redirectUrl = response.headers.location;
+        getFileStreamFromUrl(redirectUrl).then(resolve).catch(reject);
+        return;
+      }
+
+      // 응답 상태 코드 확인
+      if (response.statusCode !== 200) {
+        return reject(new Error(`파일 스트림 가져오기 실패: 상태 코드 ${response.statusCode}`));
+      }
+
+      // 스트림 반환
+      resolve(response);
+    });
+
+    request.on('error', (err) => {
+      reject(err);
+    });
+
+    // 타임아웃 설정 (30초)
+    request.setTimeout(30000, () => {
+      request.destroy();
+      reject(new Error('요청 타임아웃: 30초 경과'));
+    });
+  });
+}
+
+/**
+ * 스트림에서 데이터를 읽어 버퍼로 변환하는 함수
+ * @param {Readable} stream - 데이터를 읽을 스트림
+ * @returns {Promise<Buffer>} - 버퍼를 반환하는 Promise
+ */
+const streamToBuffer = (stream) => {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    stream.on('data', (chunk) => chunks.push(chunk));
+    stream.on('end', () => resolve(Buffer.concat(chunks)));
+    stream.on('error', reject);
+  });
+}
+
+const getFileBufferFromUrl = async (url) => {
+  return streamToBuffer(await getFileStreamFromUrl(url));
+}
+
+
+const saveFileFromUrl = async (path, url) => {
+  saveFile(path, await getFileBufferFromUrl(url));
+}
 // & Export AREA
 // &---------------------------------------------------------------------------
 export {
@@ -438,5 +501,9 @@ export {
   moveFiles,
   renameFilesInFolder,
   deleteFilesInFolder,
-  substituteInFile
+  substituteInFile,
+  getFileStreamFromUrl,
+  streamToBuffer,
+  getFileBufferFromUrl,
+  saveFileFromUrl
 };

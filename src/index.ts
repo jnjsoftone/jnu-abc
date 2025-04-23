@@ -56,4 +56,7 @@ export {
   renameFilesInFolder, // 폴더 내 파일 이름 변경
   deleteFilesInFolder, // 폴더 내 파일 삭제
   substituteInFile, // 파일 내용 치환
+  getFileStreamFromUrl,  // url -> file stream
+  getFileBufferFromUrl,  // url -> file buffer
+  saveFileFromUrl,  // url -> file 저장
 } from './builtin.js';
