@@ -1,6 +1,6 @@
 {
   "name": "jnu-abc",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Jnjsoft Nodejs Utility Library for Base Functions in Typescript",
   "author": "JnJ One <jnjsoft.one@gmail.com>",
   "main": "./cjs/index.js",
