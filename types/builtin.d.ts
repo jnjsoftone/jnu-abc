@@ -1,7 +1,5 @@
-/// <reference types="node" />
-/// <reference types="node" />
 import type { FileOptions, JsonOptions } from './types.js';
-declare const PLATFORM: string;
+declare const PLATFORM: any;
 /**
  * 폴더이름에 포함된 "\\" => "/"
  */
@@ -65,15 +63,15 @@ declare function findFolders(basePath: string, pattern?: string | RegExp): strin
 /**
  * exists Folder(폴더 존재여부)
  */
-declare const existsFolder: (folder: string) => boolean;
+declare const existsFolder: (folder: string) => any;
 /**
  * exists Folder(폴더 존재여부)
  */
-declare const existsFile: (file: string) => boolean;
+declare const existsFile: (file: string) => any;
 /**
  * exists Folder(폴더 존재여부)
  */
-declare const exists: (path: string) => boolean;
+declare const exists: (path: string) => any;
 /**
  * moveFile
  */
@@ -88,7 +86,7 @@ declare const moveFiles: (srcFolderName: string, dstFolderName: string, srcFileN
  * @param  filterCb
  * @param  mapCb
  */
-declare const renameFilesInFolder: (folder: string, filterCb: Function, mapCb: Function) => any[];
+declare const renameFilesInFolder: (folder: string, filterCb: Function, mapCb: Function) => any;
 declare const deleteFilesInFolder: (folderPath: string, pattern?: string, recursive?: boolean) => {
     folderPath: string;
     pattern: string;

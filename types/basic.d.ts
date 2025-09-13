@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import type { Dict } from './types.js';
 /**
  * 간단한 테스트용 함수
@@ -381,7 +380,7 @@ declare const timeFromTimestamp: (timestamp: number) => string;
  * delay(text => console.log(text), 1000, 'later')
  * // => Logs 'later' after one second.
  */
-declare const delay: (func: (...args: any[]) => void, wait: number, ...args: any[]) => NodeJS.Timeout;
+declare const delay: (func: (...args: any[]) => void, wait: number, ...args: any[]) => any;
 /**
  * Sleep For Second
  * @param sec
