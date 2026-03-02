@@ -1,4 +1,4 @@
-# API 참조 문서
+﻿# API 참조 문서
 ## JNU-ABC: TypeScript 유틸리티 라이브러리
 
 ### 📋 목차

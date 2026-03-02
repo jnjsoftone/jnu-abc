@@ -1,4 +1,4 @@
-import type { FileOptions, JsonOptions } from './types.js';
+﻿import type { FileOptions, JsonOptions } from './types.js';
 declare const PLATFORM: any;
 /**
  * 폴더이름에 포함된 "\\" => "/"

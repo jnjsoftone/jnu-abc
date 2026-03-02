@@ -1,4 +1,4 @@
-# Technical Requirements Document (TRD)
+﻿# Technical Requirements Document (TRD)
 ## JNU-ABC: TypeScript Utility Library
 
 ### 1. System Architecture

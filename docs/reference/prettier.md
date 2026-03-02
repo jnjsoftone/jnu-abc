@@ -1,4 +1,4 @@
-현재 VS Code에서 JavaScript 파일의 포맷터 설정에 대한 문제가 발생한 것 같네요. 
+﻿현재 VS Code에서 JavaScript 파일의 포맷터 설정에 대한 문제가 발생한 것 같네요. 
 
 현재 설정을 보면:
 1. `.vscode/settings.json`에서는 JavaScript 파일에 대해 Prettier를 기본 포맷터로 설정되어 있습니다.

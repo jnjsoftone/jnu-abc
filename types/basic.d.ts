@@ -1,4 +1,4 @@
-import type { Dict } from './types.js';
+﻿import type { Dict } from './types.js';
 /**
  * 간단한 테스트용 함수
  * @returns 'pong'

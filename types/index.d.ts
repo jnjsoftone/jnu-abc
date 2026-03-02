@@ -1,4 +1,4 @@
-export { popDict, // 객체에서 특정 키 제거
+﻿export { popDict, // 객체에서 특정 키 제거
 serializeNonPOJOs, // NonPOJO 객체를 POJO 객체로 변환
 evalStr, // 문자열 내의 표현식 평가
 includesMulti, // 문자열이 배열의 요소 중 하나를 포함하는지 확인

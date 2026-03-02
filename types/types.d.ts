@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @module basic
  */
 export type Dict = Record<string, any>;

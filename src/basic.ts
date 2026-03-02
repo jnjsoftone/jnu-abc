@@ -1,4 +1,4 @@
-import type { Dict } from './types.js';
+﻿import type { Dict } from './types.js';
 
 // & Functions AREA
 // &---------------------------------------------------------------------------

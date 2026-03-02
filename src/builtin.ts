@@ -1,4 +1,4 @@
-// & Import AREA
+﻿// & Import AREA
 // &---------------------------------------------------------------------------
 // ? Builtin Modules
 import * as fs from 'fs';

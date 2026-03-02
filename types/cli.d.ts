@@ -1,4 +1,4 @@
-/// <reference types="node" />
+﻿/// <reference types="node" />
 import { ExecSyncOptionsWithStringEncoding } from 'child_process';
 import type { ExecResult, ExecResults } from './types.js';
 declare const TEMPLATES_ROOT: string;

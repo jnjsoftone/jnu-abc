@@ -1,4 +1,4 @@
-# Functional Specification
+﻿# Functional Specification
 ## JNU-ABC: TypeScript Utility Library
 
 ### 📋 Document Information
